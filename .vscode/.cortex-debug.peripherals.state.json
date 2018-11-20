@@ -1,0 +1,1 @@
+[{"node":"GPIO_PORT.B00","expanded":true,"format":0},{"node":"GPIO_PORT.B07","expanded":true,"format":0},{"node":"IOCON","expanded":true,"format":0},{"node":"IOCON.PIO0_7","expanded":true,"format":0},{"node":"SYSCON.SYSAHBCLKCTRL","expanded":true,"format":0},{"node":"USART.THR","expanded":true,"format":0}]
