@@ -5,8 +5,14 @@
         "board.h": "c",
         "chip.h": "c",
         "clock_11xx.h": "c",
-        "board_gpio_id.h": "c"
+        "board_gpio_id.h": "c",
+        "config.h": "c",
+        "usbd.h": "c",
+        "usbd_core.h": "c",
+        "usbd_rom_api.h": "c",
+        "app_usbd_cfg.h": "c",
+        "stdio.h": "c"
     },
-    "C_Cpp.default.defines": ["CHIP_LPC11UXX"],
+    "C_Cpp.default.defines": ["CHIP_LPC11UXX", "CHIP_LPC11UXX_USBD_CONFIG_FILE='../usb_rom_msc/src/usb/app_usbd_cfg.h'"],
     "C_Cpp.default.compilerPath": "arm-none-eabi-gcc"
 }

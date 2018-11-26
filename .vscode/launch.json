@@ -23,6 +23,26 @@
 
             "targetId": 1,
             "showDevDebugOutput": false,
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/usb_rom_msc/build/USB_ROM_MSC",
+            "svdFile": "${workspaceRoot}/LPC11Uxx_v7.svd",
+            "name": "Mass Storage (Black Magic Probe)",
+            "device": "LPC11U14",
+
+            // for MacOS: change to your specific black magic probe, see `bobbin info`
+            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE",
+
+            // for linux, use udev rule :
+            // `SUBSYSTEM=="tty", ATTRS{interface}=="Black Magic GDB Server", SYMLINK+="ttyBmpGdb"`
+            // "BMPGDBSerialPort": "/dev/ttyBmpGdb",
+
+            "targetId": 1,
+            "showDevDebugOutput": false,
         }
     ]
 }
