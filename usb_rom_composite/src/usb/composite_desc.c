@@ -1,43 +1,5 @@
-/*
- * @brief Virtual Comm port USB descriptors
- *
- * @note
- * Copyright(C) NXP Semiconductors, 2013
- * All rights reserved.
- *
- * @par
- * Software that is described herein is for illustrative purposes only
- * which provides customers with programming information regarding the
- * LPC products.  This software is supplied "AS IS" without any warranties of
- * any kind, and NXP Semiconductors and its licensor disclaim any and
- * all warranties, express or implied, including all implied warranties of
- * merchantability, fitness for a particular purpose and non-infringement of
- * intellectual property rights.  NXP Semiconductors assumes no responsibility
- * or liability for the use of the software, conveys no license or rights under any
- * patent, copyright, mask work right, or any other intellectual property rights in
- * or to any products. NXP Semiconductors reserves the right to make changes
- * in the software without notification. NXP Semiconductors also makes no
- * representation or warranty that such application will be suitable for the
- * specified use without further testing or modification.
- *
- * @par
- * Permission to use, copy, modify, and distribute this software and its
- * documentation is hereby granted, under NXP Semiconductors' and its
- * licensor's relevant copyrights in the software, without fee, provided that it
- * is used in conjunction with NXP Semiconductors microcontrollers.  This
- * copyright, permission, and disclaimer notice must appear in all copies of
- * this code.
- */
-
 #include "app_usbd_cfg.h"
-
-/*****************************************************************************
- * Private types/enumerations/variables
- ****************************************************************************/
-
-/*****************************************************************************
- * Public types/enumerations/variables
- ****************************************************************************/
+#include "usbd_rom_api.h"
 
 /**
  * USB Standard Device Descriptor
@@ -168,24 +130,24 @@ ALIGNED(4) uint8_t USB_FsConfigDescriptor[] = {
 	// /* Interface 1, Alternate Setting 0, MSC Class */
 	USB_INTERFACE_DESC_SIZE,           /* bLength */
 	USB_INTERFACE_DESCRIPTOR_TYPE,     /* bDescriptorType */
-	0x02,                              /* bInterfaceNumber */
+	USB_MSC_IF_NUM,                              /* bInterfaceNumber */
 	0x00,                              /* bAlternateSetting */
 	0x02,                              /* bNumEndpoints */
 	USB_DEVICE_CLASS_STORAGE,          /* bInterfaceClass */
 	MSC_SUBCLASS_SCSI,                 /* bInterfaceSubClass */
 	MSC_PROTOCOL_BULK_ONLY,            /* bInterfaceProtocol */
-	0x05,                              /* iInterface */
+	0x05,                              /* iInterface: string descriptor index */
 	/* Bulk In Endpoint */
 	USB_ENDPOINT_DESC_SIZE,            /* bLength */
 	USB_ENDPOINT_DESCRIPTOR_TYPE,      /* bDescriptorType */
-	MSC_EP_IN,                         /* bEndpointAddress */
+	USB_MSC_EP_IN,                         /* bEndpointAddress */
 	USB_ENDPOINT_TYPE_BULK,            /* bmAttributes */
 	WBVAL(USB_FS_MAX_BULK_PACKET),     /* wMaxPacketSize */
 	0,                                 /* bInterval */
 	/* Bulk Out Endpoint */
 	USB_ENDPOINT_DESC_SIZE,            /* bLength */
 	USB_ENDPOINT_DESCRIPTOR_TYPE,      /* bDescriptorType */
-	MSC_EP_OUT,                        /* bEndpointAddress */
+	USB_MSC_EP_OUT,                        /* bEndpointAddress */
 	USB_ENDPOINT_TYPE_BULK,            /* bmAttributes */
 	WBVAL(USB_FS_MAX_BULK_PACKET),     /* wMaxPacketSize */
 	0,                                 /* bInterval */

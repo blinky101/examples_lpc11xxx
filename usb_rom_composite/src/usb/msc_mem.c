@@ -1,14 +1,9 @@
-
-
-#include <chip.h>
-// usbd includes
 #include <string.h>
 #include "usbd/usbd_rom_api.h"
-#include "usbd/usbd.h"
-#include "app_usbd_cfg.h"
 
 extern USBD_API_T* gUSB_API;
 
+extern const unsigned char DiskImage[MSC_ImageSize];
 
 const uint8_t InquiryStr[] = {
 	'N',
@@ -40,12 +35,6 @@ const uint8_t InquiryStr[] = {
 	'0',
 	' ',
 };
-
-/* Mass Storage Memory Layout */
-#define MSC_BlockSize 512
-#define MSC_BlockCount (MSC_MemorySize / MSC_BlockSize)
-
-extern const unsigned char DiskImage[MSC_ImageSize];
 
 uint8_t *Memory = (uint8_t *)MSC_IMAGE_ADDR;
 
@@ -96,7 +85,7 @@ ErrorCode_t usb_msc_mem_init(USBD_HANDLE_T hUsb, USB_INTERFACE_DESCRIPTOR *pIntf
 	msc_param.mem_size = *mem_size;
 	/* mass storage paramas */
 	msc_param.InquiryStr = (uint8_t *)InquiryStr;
-	msc_param.BlockCount = MSC_MemorySize / MSC_BlockSize;
+	msc_param.BlockCount = MSC_BlockCount;
 	msc_param.BlockSize = MSC_BlockSize;
 	msc_param.MemorySize = MSC_MemorySize;
 
@@ -111,12 +100,11 @@ ErrorCode_t usb_msc_mem_init(USBD_HANDLE_T hUsb, USB_INTERFACE_DESCRIPTOR *pIntf
 	msc_param.MSC_Read = translate_rd;
 	msc_param.MSC_Verify = translate_verify;
 
+	// uint32_t reqMemSize = gUSB_API->msc->GetMemSize(&msc_param);
 	ret = gUSB_API->msc->init(hUsb, &msc_param);
 	/* update memory variables */
 	*mem_base = msc_param.mem_base;
 	*mem_size = msc_param.mem_size;
-
-	//  init_usb_iap();
 
 	return ret;
 }

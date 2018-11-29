@@ -117,7 +117,7 @@ file(GLOB SOURCES
 
 set(CMAKE_SYSTEM_NAME Generic)
 
-
+include_directories("src/usb")
 
 
 #-----------------------------------------------------------------------

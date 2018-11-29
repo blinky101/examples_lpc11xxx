@@ -32,7 +32,7 @@
 #ifndef __CDC_VCOM_H_
 #define __CDC_VCOM_H_
 
-#include "app_usbd_cfg.h"
+#include "usbd_rom_api.h"
 
 #ifdef __cplusplus
 extern "C"

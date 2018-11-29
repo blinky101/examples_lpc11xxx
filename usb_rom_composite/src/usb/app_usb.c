@@ -1,67 +1,21 @@
 #include <chip.h>
 #include <string.h>
-#include "app_usbd_cfg.h"
-#include "cdc_vcom.h"
+
+#include "app_usb.h"
+#include "usbd_rom_api.h"
+
 #include "msc_mem.h"
+#include "usb_utils.h"
+#include "cdc_vcom.h"
 
-#include <stdio.h>
-
-typedef union  {
-	struct  {
-		int core: 8;
-		int hw: 4;
-		int msc: 4;
-		int dfu: 4;
-		int hid: 4;
-		int cdc: 4;
-		int reserved: 4;
-	} fields;
-	uint32_t raw;
-} usbversion;
-
+/* USB descriptor arrays defined *_desc.c file */
+extern const uint8_t USB_DeviceDescriptor[];
+extern uint8_t USB_FsConfigDescriptor[];
+extern const uint8_t USB_StringDescriptor[];
+extern const uint8_t USB_DeviceQualifier[];
 
 static USBD_HANDLE_T g_hUsb;
 USBD_API_T* gUSB_API;
-
-/* Find the address of interface descriptor for given class type. */
-USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass)
-{
-	USB_COMMON_DESCRIPTOR *pD;
-	USB_INTERFACE_DESCRIPTOR *pIntfDesc = 0;
-	uint32_t next_desc_adr;
-
-	pD = (USB_COMMON_DESCRIPTOR *) pDesc;
-	next_desc_adr = (uint32_t) pDesc;
-
-	while (pD->bLength) {
-		/* is it interface descriptor */
-		if (pD->bDescriptorType == USB_INTERFACE_DESCRIPTOR_TYPE) {
-
-			pIntfDesc = (USB_INTERFACE_DESCRIPTOR *) pD;
-			/* did we find the right interface descriptor */
-			if (pIntfDesc->bInterfaceClass == intfClass) {
-				break;
-			}
-		}
-		pIntfDesc = 0;
-		next_desc_adr = (uint32_t) pD + pD->bLength;
-		pD = (USB_COMMON_DESCRIPTOR *) next_desc_adr;
-	}
-
-	return pIntfDesc;
-}
-
-/* Initialize pin and clocks for USB0/USB1 port */
-static void usb_clk_init(void)
-{
-	/* enable USB main clock */
-	Chip_Clock_SetUSBClockSource(SYSCTL_USBCLKSRC_PLLOUT, 1);
-	/* Enable AHB clock to the USB block and USB RAM. */
-	Chip_Clock_EnablePeriphClock(SYSCTL_CLOCK_USB);
-	Chip_Clock_EnablePeriphClock(SYSCTL_CLOCK_USBRAM);
-	/* power UP USB Phy */
-	Chip_SYSCTL_PowerUp(SYSCTL_POWERDOWN_USBPAD_PD);
-}
 
 void USB_IRQHandler(void)
 {
@@ -97,6 +51,7 @@ bool app_usb_init()
 	desc.device_qualifier = 0;
 
 	/* USB Initialization */
+	// uint32_t reqMemSize = gUSB_API->hw->GetMemSize(&usb_param);
 	ret = gUSB_API->hw->Init(&g_hUsb, &desc, &usb_param);
 	if (ret == LPC_OK) {
 
@@ -116,14 +71,14 @@ bool app_usb_init()
 				switch (pIntfDesc->bInterfaceClass)
 				{
 				case USB_DEVICE_CLASS_STORAGE:
-					usb_param.mem_base = 0x10001500;
-					usb_param.mem_size = 0x300;
+					usb_param.mem_base = MSC_PARAM_MEM;
+					usb_param.mem_size = MSC_RARAM_SIZE;
 					ret = usb_msc_mem_init(g_hUsb, pIntfDesc, &usb_param.mem_base, &usb_param.mem_size);
 
 					break;
 				case CDC_COMMUNICATION_INTERFACE_CLASS:
-					usb_param.mem_base = 0x10001800;
-					usb_param.mem_size = 0x200;
+					usb_param.mem_base = CDC_PARAM_MEM;
+					usb_param.mem_size = CDC_PARAM_SIZE;
 					ret = vcom_init(g_hUsb, &desc, &usb_param);
 					break;
 				}

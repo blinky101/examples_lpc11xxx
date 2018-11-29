@@ -29,9 +29,10 @@
  * this code.
  */
 #include <string.h>
-#include "app_usbd_cfg.h"
 #include "chip.h"
+
 #include "cdc_vcom.h"
+#include "usb_utils.h"
 
 
 extern USBD_API_T* gUSB_API;
@@ -129,6 +130,7 @@ ErrorCode_t vcom_init (USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INI
 	cdc_param.dif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_DATA_INTERFACE_CLASS);
 	cdc_param.SetLineCode = VCOM_SetLineCode;
 
+	// uint32_t reqMemSize = gUSB_API->cdc->GetMemSize(&cdc_param);
 	ret = gUSB_API->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
 
 	if (ret == LPC_OK) {
