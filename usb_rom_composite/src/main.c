@@ -11,6 +11,7 @@
 #include "usb/app_usb.h"
 
 #define CLK_FREQ (48e6)
+
 int main(void)
 {
     board_setup();
