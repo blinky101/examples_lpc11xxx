@@ -31,7 +31,7 @@ bool app_usb_init()
 	USB_CORE_DESCS_T desc;
 	ErrorCode_t ret = LPC_OK;
 
-	usb_clk_init();
+	usb_clk_init(true);
 
 	/* initilize call back structures */
 	memset((void *) &usb_param, 0, sizeof(USBD_API_INIT_PARAM_T));

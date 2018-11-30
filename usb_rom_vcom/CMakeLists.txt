@@ -75,12 +75,11 @@ CPM_AddModule("startup_lpc11xxx"
 
 CPM_AddModule("lpc_tools"
     GIT_REPOSITORY "https://github.com/JitterCompany/lpc_tools.git"
-    GIT_TAG "2.6.1")
+    GIT_TAG "2.8")
 
 CPM_AddModule("chip_lpc11xxx"
-SOURCE_DIR "../../../chip_lpc11xxx")
-    # GIT_REPOSITORY "https://github.com/JitterCompany/chip_lpc11xxx.git"
-    # GIT_TAG "1.3")
+    GIT_REPOSITORY "https://github.com/JitterCompany/chip_lpc11xxx.git"
+    GIT_TAG "1.4")
 
 CPM_AddModule("mcu_timing"
     GIT_REPOSITORY "https://github.com/JitterCompany/mcu_timing.git"

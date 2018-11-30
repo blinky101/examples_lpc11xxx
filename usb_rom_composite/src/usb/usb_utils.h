@@ -24,7 +24,11 @@ USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass
 
 /**
  *  Initialize clocks for USB0 port
+ *
+ * @param use_main_pll: chose whether to use the Main PLL (true)
+ * or the USB PLL (false). Note that the Main PLL needs to be 48 MHz
+ * in order to be used for USB operations.
  **/
-void usb_clk_init(void);
+void usb_clk_init(bool use_main_pll);
 
 #endif

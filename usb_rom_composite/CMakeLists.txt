@@ -45,7 +45,7 @@ set(C_FLAGS_WARN "-Wall -Wextra -Wno-unused-parameter           \
 set(L_FLAGS "-fmessage-length=80 -nostdlib -specs=nano.specs \
     -mthumb -Wl,--gc-sections")
 
-set(MCU_PLATFORM    11uxx)
+set(MCU_PLATFORM    lpc11xxx)
 
 add_definitions("${FLAGS_M0} ${C_FLAGS} ${C_FLAGS_WARN}")
 add_definitions(-DCORE_M0 -DCHIP_LPC11UXX -DMCU_PLATFORM_${MCU_PLATFORM})
@@ -75,16 +75,15 @@ CPM_AddModule("startup_lpc11xxx"
 
 CPM_AddModule("lpc_tools"
     GIT_REPOSITORY "https://github.com/JitterCompany/lpc_tools.git"
-    GIT_TAG "2.6.1")
+    GIT_TAG "2.8")
 
 CPM_AddModule("chip_lpc11xxx"
-SOURCE_DIR "../../../chip_lpc11xxx")
-    # GIT_REPOSITORY "https://github.com/JitterCompany/chip_lpc11xxx.git"
-    # GIT_TAG "1.3")
+    GIT_REPOSITORY "https://github.com/JitterCompany/chip_lpc11xxx.git"
+    GIT_TAG "1.4")
 
 CPM_AddModule("mcu_timing"
     GIT_REPOSITORY "https://github.com/JitterCompany/mcu_timing.git"
-    GIT_TAG "1.5.7")
+    GIT_TAG "1.5.8")
 
 CPM_AddModule("c_utils"
     GIT_REPOSITORY "https://github.com/JitterCompany/c_utils.git"
