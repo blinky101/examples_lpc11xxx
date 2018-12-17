@@ -92,6 +92,8 @@ int main(void)
 
 	Uart_Init();
 
+    delay_us(1000*1000);
+
     assert(SPI_flash_init(LPC_SSP1,
                 board_get_GPIO(GPIO_ID_FLASH_CS),
                 SPI_FLASH_PAGE_SIZE_BYTES,
@@ -99,10 +101,14 @@ int main(void)
                 SPI_FLASH_SIZE_BYTES));
 
 
+    char buf[128];
+    snprintf(buf, sizeof(buf), "\r\nSPI Flash: starting demo..\r\n");
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
+    delay_us(100*1000);
+
+    // Step 0: read JEDEC ID to verify communication with the flash IC
     bool flash_detected = false;
 	while(!flash_detected) {
-
-        char buf[128];
 
         JEDECID SPI_ID;
         if(SPI_flash_read_JEDEC_ID(&SPI_ID)) {
@@ -120,6 +126,60 @@ int main(void)
         GPIO_HAL_toggle(led);
         delay_us(1000*1000);
 	}
+
+    // Step 1: Erase a block (block #3 in this case)
+    const uint32_t erase_offset = 3*SPI_FLASH_ERASE_BLOCK_SIZE_BYTES;
+    assert(SPI_flash_erase_block(erase_offset));
+    snprintf(buf, sizeof(buf), "SPI Flash: erased a block..\r\n");
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
+    delay_us(100*1000);
+    
+
+    // Step 2: Verify the block is now erased
+    uint8_t first_page[256];
+    memset(first_page, 0x33, sizeof(first_page));
+    assert(SPI_flash_read(erase_offset, first_page, sizeof(first_page)));
+    for(size_t n=0;n<sizeof(first_page);n++) {
+        assert(first_page[n] == 0xFF);
+    }
+    snprintf(buf, sizeof(buf), "SPI Flash: first page is indeed 0xFF..\r\n");
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
+    delay_us(100*1000);
+    
+
+    // Step 3: Program a page within the erased block
+    const char *hello_world = "Hello World!";
+    const size_t hello_world_len = strlen(hello_world);
+    assert(SPI_flash_program(erase_offset, hello_world, hello_world_len));
+    snprintf(buf, sizeof(buf), "SPI Flash: programmed hello_world string..\r\n");
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
+    delay_us(100*1000);
+
+
+    // Step 4: Read back to verify programming was succesfull
+    uint8_t from_flash[100];
+    size_t result_len = 0;
+    memset(from_flash, 0x33, sizeof(from_flash));
+    assert(SPI_flash_read(erase_offset, from_flash, sizeof(from_flash)));
+    for(size_t n=0;n<sizeof(from_flash);n++) {
+        if(from_flash[n] == 0xFF) {
+            from_flash[n] = 0;
+            result_len = n;
+        }
+    }
+    if(result_len) {
+        snprintf(buf, sizeof(buf), "SPI Flash: read '%s' from flash!\r\n",
+                from_flash);
+    } else {
+        snprintf(buf, sizeof(buf), "SPI Flash: readback failed!\r\n");
+    }
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
+    delay_us(100*1000);
+    
+
+    // Done!
+    snprintf(buf, sizeof(buf), "SPI Flash: demo finished!\r\n");
+    Chip_UART_SendRB(LPC_USART, &txring, buf, strlen(buf));
 
     while(true) {
         GPIO_HAL_toggle(led);
