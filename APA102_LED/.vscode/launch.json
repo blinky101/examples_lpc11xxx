@@ -9,9 +9,9 @@
             "request": "launch",
             "servertype": "bmp",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/build/adc_pressure_sensor",
+            "executable": "${workspaceRoot}/build/APA102_LED",
             "svdFile": "${workspaceRoot}/LPC11Uxx_v7.svd",
-            "name": "CPM (Black Magic Probe)",
+            "name": "APA102 (Black Magic Probe)",
             "device": "LPC11U14",
 
             // for MacOS: change to your specific black magic probe, see `bobbin info`

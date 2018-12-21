@@ -23,6 +23,8 @@ set(OPTIMIZE s)
 set(BLACKMAGIC_DEV /dev/ttyBmpGdb)
 set(POWER_TARGET "no")
 
+set(CRP_SETTING "NONE")
+
 # Include custom settings
 # (if this file does not exist, copy it from config.cmake.example)
 include(${CMAKE_SOURCE_DIR}/config.cmake)
@@ -30,6 +32,8 @@ include(${CMAKE_SOURCE_DIR}/config.cmake)
 message(STATUS "Config OPTIMIZE: ${OPTIMIZE}")
 message(STATUS "Config BLACKMAGIC_DEV: ${BLACKMAGIC_DEV}")
 message(STATUS "Config POWER_TARGET: ${POWER_TARGET}")
+
+message(STATUS "Config CRP_SETTING: ${CRP_SETTING}")
 
 set(SYSTEM_LIBRARIES    m c gcc)
 
@@ -48,6 +52,7 @@ set(MCU_PLATFORM    lpc11xxx)
 
 add_definitions("${FLAGS_M0} ${C_FLAGS} ${C_FLAGS_WARN}")
 add_definitions(-DCORE_M0 -DCHIP_LPC11UXX -DMCU_PLATFORM_${MCU_PLATFORM})
+add_definitions(-DCRP_SETTING_${CRP_SETTING})
 
 # lpc_usb_lib settings
 add_definitions(-D__LPC11U1X__ -DUSB_DEVICE_ONLY)
@@ -63,7 +68,7 @@ set(FLASH_FILE          ${PROJECT_BINARY_DIR}/flash.cfg)
 
 CPM_AddModule("startup_lpc11xxx"
     GIT_REPOSITORY "https://github.com/JitterCompany/startup_lpc11xxx.git"
-    GIT_TAG "1.2")
+    GIT_TAG "1.3")
 
 CPM_AddModule("lpc_tools"
     GIT_REPOSITORY "https://github.com/JitterCompany/lpc_tools.git"

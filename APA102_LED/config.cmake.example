@@ -15,3 +15,9 @@
 # via another supply (such as a USB cable).
 #set(POWER_TARGET "no")
 
+# Code read protection options
+#set(CRP_SETTING "NONE")
+#set(CRP_SETTING "NO_ISP")
+#set(CRP_SETTING "CRP1")
+#set(CRP_SETTING "CRP2")
+#set(CRP_SETTING "CRP3")
