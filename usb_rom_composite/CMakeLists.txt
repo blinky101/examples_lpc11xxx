@@ -110,7 +110,7 @@ ${LINKER_FILES} ${FLAGS_M0}")
 
 
 file(GLOB SOURCES
-"src/*.c",
+"src/*.c"
 "src/usb/*.c"
 )
 
