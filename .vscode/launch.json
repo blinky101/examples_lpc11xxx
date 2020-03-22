@@ -15,7 +15,7 @@
             "device": "LPC11UXX",
 
             // for MacOS: change to your specific black magic probe, see `bobbin info`
-            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE",
+            "BMPGDBSerialPort": "/dev/cu.usbmodemE2D1BCA31",
 
             // for linux, use udev rule :
             // `SUBSYSTEM=="tty", ATTRS{interface}=="Black Magic GDB Server", SYMLINK+="ttyBmpGdb"`
@@ -35,7 +35,7 @@
             "device": "LPC11UXX",
 
             // for MacOS: change to your specific black magic probe, see `bobbin info`
-            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE",
+            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE1",
 
             // for linux, use udev rule :
             // `SUBSYSTEM=="tty", ATTRS{interface}=="Black Magic GDB Server", SYMLINK+="ttyBmpGdb"`
@@ -55,7 +55,7 @@
             "device": "LPC11UXX",
 
             // for MacOS: change to your specific black magic probe, see `bobbin info`
-            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE",
+            "BMPGDBSerialPort": "/dev/cu.usbmodemC1E497DE1",
 
             // for linux, use udev rule :
             // `SUBSYSTEM=="tty", ATTRS{interface}=="Black Magic GDB Server", SYMLINK+="ttyBmpGdb"`

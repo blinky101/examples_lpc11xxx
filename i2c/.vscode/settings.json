@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "boardconfig.h": "c",
+        "string.h": "c",
+        "board.h": "c",
+        "chip.h": "c",
+        "clock_11xx.h": "c",
+        "board_gpio_id.h": "c",
+        "gpio_hal_lpc.h": "c"
+    },
+    "C_Cpp.default.defines": ["CHIP_LPC11UXX"],
+    "C_Cpp.default.compilerPath": "arm-none-eabi-gcc"
+}

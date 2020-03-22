@@ -13,15 +13,24 @@ const uint32_t OscRateIn = 12000000;
 
 static const NVICConfig NVIC_config[] = {
     {TIMER_32_0_IRQn,       1},     // delay timer: high priority
+    {I2C0_IRQn, 2}
 };
 
 static const PinMuxConfig pinmuxing[] = {
+
         // Board LEDs
         {0,  7, (IOCON_FUNC0)},          // LED
+        {0,  18, (IOCON_FUNC1 | IOCON_MODE_INACT)},          // RXD
+        {0,  19, (IOCON_FUNC1 | IOCON_MODE_INACT)},          // TXD
+        {0,  4, (IOCON_FUNC1 | IOCON_SFI2C_EN)}, // SCL (yellow)
+        {0,  5, (IOCON_FUNC1 | IOCON_SFI2C_EN)}, // SDA (green)
 };
 
 static const GPIOConfig pin_config[] = {
-    [GPIO_ID_LED] =       {{0,  7}, GPIO_CFG_DIR_OUTPUT_LOW},
+    [GPIO_ID_LED] = {{0,  7}, GPIO_CFG_DIR_OUTPUT_LOW},
+};
+
+static const enum ADCConfig adc_config[] = {
 };
 
 // pin config struct should match GPIO_ID enum
@@ -38,8 +47,8 @@ static const BoardConfig config = {
     .GPIO_configs = pin_config,
     .GPIO_count = sizeof(pin_config) / sizeof(pin_config[0]),
 
-    .ADC_configs = NULL,
-    .ADC_count = 0
+    .ADC_configs = adc_config,
+    .ADC_count = sizeof(adc_config) / sizeof(adc_config[0])
 };
 
 
